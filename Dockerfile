@@ -20,6 +20,7 @@ COPY --from=build /app/main .
 COPY ridnvil /app/ridnvil
 COPY database /app/database
 COPY nvil.sqlite3 /app/nvil.sqlite3
+COPY ridnvil/build/static /app
 
 RUN apk --no-cache add tzdata
 ENV TZ=Asia/Jakarta

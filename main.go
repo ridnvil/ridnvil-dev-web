@@ -15,9 +15,6 @@ func main() {
 	app.Static("/", "ridnvil/build", fiber.Static{
 		Browse: false,
 	})
-	app.Get("*", func(ctx *fiber.Ctx) error {
-		return ctx.SendFile("ridnvil/build/index.html")
-	})
 
 	db, err := database.OpenConnectionSQLite()
 	if err != nil {
