@@ -1,0 +1,7 @@
+version: '3'
+services:
+  ridnvil:
+    build: .
+    container_name: ridnvil-dev-web
+    ports:
+      - "3000:30001"

@@ -6,7 +6,7 @@ import (
 )
 
 func OpenConnectionSQLite() (*gorm.DB, error) {
-	db, err := gorm.Open(sqlite.Open("../ridnvil-dev/database/nvil.sqlite3"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("../ridnvil-dev-web/database/nvil.sqlite3"), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
