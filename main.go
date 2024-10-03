@@ -12,11 +12,11 @@ func main() {
 	app := fiber.New(fiber.Config{AppName: "ridnvil.dev"})
 	app.Use(logger.New())
 
-	app.Static("/", "./ridnvil/build", fiber.Static{
+	app.Static("/", "ridnvil/build", fiber.Static{
 		Browse: false,
 	})
 	app.Get("*", func(ctx *fiber.Ctx) error {
-		return ctx.SendFile("./ridnvil/build/index.html")
+		return ctx.SendFile("ridnvil/build/index.html")
 	})
 
 	db, err := database.OpenConnectionSQLite()
