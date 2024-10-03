@@ -1,6 +1,8 @@
 # Use a minimal base image for Go applications
 FROM golang:1.22.7-alpine AS build
 
+RUN apk add --no-cache gcc musl-dev
+
 WORKDIR /app
 
 COPY go.mod go.sum ./
