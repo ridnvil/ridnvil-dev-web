@@ -21,6 +21,7 @@ COPY nvil.sqlite3 /app/nvil.sqlite3
 
 RUN apk --no-cache add tzdata
 ENV TZ=Asia/Jakarta
+ENV CGO_ENABLED=1
 
 EXPOSE 3000
 CMD ["./main"]
