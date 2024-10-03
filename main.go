@@ -10,6 +10,7 @@ import (
 func main() {
 	app := fiber.New(fiber.Config{AppName: "ridnvil.dev"})
 	app.Static("/", "ridnvil/build")
+	app.Static("/static", "ridnvil/build/static")
 
 	db, err := database.OpenConnectionSQLite()
 	if err != nil {
