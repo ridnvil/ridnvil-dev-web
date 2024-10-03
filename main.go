@@ -25,7 +25,7 @@ func main() {
 	api.Get("/welcome", controllers.Welcome)
 	api.Post("/client", controllers.CreateClient)
 
-	if err := app.Listen(":3000"); err != nil {
+	if err := app.Listen(":3001"); err != nil {
 		panic(err)
 	}
 }

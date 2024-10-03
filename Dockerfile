@@ -25,5 +25,5 @@ RUN apk --no-cache add tzdata
 ENV TZ=Asia/Jakarta
 ENV CGO_ENABLED=1
 
-EXPOSE 3000
+EXPOSE 3001
 CMD ["./main"]
