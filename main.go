@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"ridnvil-dev/pkg/controllers"
 	"ridnvil-dev/pkg/database"
 	"ridnvil-dev/pkg/models"
@@ -9,8 +10,10 @@ import (
 
 func main() {
 	app := fiber.New(fiber.Config{AppName: "ridnvil.dev"})
-	app.Static("/", "ridnvil/build")
-	app.Static("/static", "ridnvil/build/static")
+	app.Use(logger.New())
+
+	app.Static("/", "./ridnvil/build")
+	app.Static("/static", "./ridnvil/build/static")
 
 	db, err := database.OpenConnectionSQLite()
 	if err != nil {
