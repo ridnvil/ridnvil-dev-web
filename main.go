@@ -29,6 +29,7 @@ func main() {
 
 	api.Get("/welcome", controllers.Welcome)
 	api.Post("/client", controllers.CreateClient)
+	api.Get("/client", controllers.GetListClient)
 
 	if err := app.Listen(":3001"); err != nil {
 		panic(err)

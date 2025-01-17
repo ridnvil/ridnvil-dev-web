@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"log"
 	"ridnvil-dev/pkg/models"
+	"ridnvil-dev/pkg/repository"
 	"ridnvil-dev/pkg/services"
 )
 
@@ -20,4 +21,12 @@ func CreateClient(ctx *fiber.Ctx) error {
 	}
 
 	return ctx.Status(200).JSON(fiber.Map{"message": "Created!"})
+}
+
+func GetListClient(ctx *fiber.Ctx) error {
+	client, err := repository.GetListClient()
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+	}
+	return ctx.JSON(client)
 }
