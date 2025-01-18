@@ -1,4 +1,3 @@
-version: '3.1'
 services:
   ridnvildb:
     image: mariadb:latest
@@ -9,7 +8,7 @@ services:
       - "3002:3306"
     networks:
       - ridnvil-net
-    
+
   ridnvil:
     build: .
     container_name: ridnvil-dev-web
