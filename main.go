@@ -17,6 +17,11 @@ func main() {
 		Browse: false,
 	})
 
+	dash := app.Group("/admin")
+	app.Static("/assets", "dashboard/dist/assets")
+	app.Static("/", "dashboard/vite.svg")
+	dash.Static("/", "dashboard/dist")
+
 	if errdbcheck := database.AutoCreateDatabase(); errdbcheck != nil {
 		log.Println(errdbcheck)
 	}
