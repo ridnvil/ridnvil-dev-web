@@ -11,8 +11,20 @@ func CreateCleint(data models.IPInfo) error {
 		return err
 	}
 
-	if err := db.Create(&data).Error; err != nil {
-		return err
+	var ipstring string
+
+	if errcheck := db.Model(models.IPInfo{}).Select("ip").Where("ip = ?", data.IP).Scan(&ipstring).Error; errcheck != nil {
+		return errcheck
+	}
+
+	if ipstring == "" {
+		if err := db.Create(&data).Error; err != nil {
+			return err
+		}
+	}
+
+	if errupdate := db.Where("ip = ?", data.IP).Save(&data).Error; errupdate != nil {
+		return errupdate
 	}
 
 	return nil
