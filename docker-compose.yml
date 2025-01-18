@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   ridnvildb:
     image: mariadb:latest
@@ -30,3 +32,4 @@ networks:
   public:
     external: true
   ridnvil-net:
+    driver: bridge
