@@ -17,8 +17,8 @@ services:
     ports:
       - "3001:3001"
     environment:
-      - HOST=root:v5jd7Sk61lL99Yumna@tcp(127.0.0.1:3306)/ridnvil?charset=utf8mb4&parseTime=True&loc=Local
-      - HOST_ONLY=root:v5jd7Sk61lL99Yumna@tcp(127.0.0.1:3306)/?charset=utf8mb4&parseTime=True&loc=Local
+      - HOST=root:v5jd7Sk61lL99Yumna@tcp(ridnvil-dev-db:3306)/ridnvil?charset=utf8mb4&parseTime=True&loc=Local
+      - HOST_ONLY=root:v5jd7Sk61lL99Yumna@tcp(ridnvil-dev-db:3306)/?charset=utf8mb4&parseTime=True&loc=Local
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web.rule=Host(`ridnvil.dev`)"
