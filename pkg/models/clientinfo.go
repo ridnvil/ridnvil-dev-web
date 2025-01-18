@@ -1,7 +1,7 @@
 package models
 
 type IPInfo struct {
-	IP                 string  `json:"ip" gorm:"type:varchar(50);unique;"`
+	IP                 string  `json:"ip" gorm:"type:varchar(50);primaryKey;"`
 	Network            string  `json:"network" gorm:"type:varchar(50)"`
 	Version            string  `json:"version" gorm:"type:varchar(50)"`
 	City               string  `json:"city" gorm:"type:varchar(50)"`

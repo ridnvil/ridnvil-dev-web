@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"log"
 	"ridnvil-dev/pkg/controllers"
 	"ridnvil-dev/pkg/database"
 	"ridnvil-dev/pkg/models"
@@ -15,6 +16,10 @@ func main() {
 	app.Static("/", "ridnvil/build", fiber.Static{
 		Browse: false,
 	})
+
+	if errdbcheck := database.AutoCreateDatabase(); errdbcheck != nil {
+		log.Println(errdbcheck)
+	}
 
 	db, err := database.OpenConnectionSQLite()
 	if err != nil {
