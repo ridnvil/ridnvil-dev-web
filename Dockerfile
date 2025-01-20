@@ -18,7 +18,6 @@ WORKDIR /app
 
 COPY --from=build /app/main .
 COPY ridnvil /app/ridnvil
-COPY dashboard /app/dashboard
 COPY database /app/database
 COPY nvil.sqlite3 /app/nvil.sqlite3
 
