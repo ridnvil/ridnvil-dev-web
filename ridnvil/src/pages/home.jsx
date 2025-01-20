@@ -9,6 +9,7 @@ import Pendidikan from "../contents/Pendidikan";
 import cv from "../assets/CV.pdf";
 import SocialMediaIcons from "../components/SocialMediaIcons";
 import Portofolio from "../components/Portofolio";
+import ThemeSwitcher from "../components/ThemeSwitcher";
 
 const Home = () => {
     const [clientInfo, setClientInfo] = useState(null)
@@ -52,12 +53,15 @@ const Home = () => {
     }
 
     return (
-        <div className="relative min-h-screen bg-transparent bg-opacity-85 p-8 flex flex-col items-center">
-            <AnimatedBackground />
+        <div className="relative min-h-screen bg-transparent bg-white dark:bg-blue-950 p-8 flex flex-col items-center">
+            <div>
+                <ThemeSwitcher />
+            </div>
+            {/*<AnimatedBackground />*/}
             <FadeInLeft>
-                <h1 className="text-2xl font-bold text-amber-50 text-center">Hello, Welcome</h1>
-                <p className="text-xl italic mb-5 text-amber-50 text-center">Thank for visit my personal website</p>
-                <h1 className="text-4xl font-bold mb-2 text-amber-50 text-center">Backend Engineer</h1>
+                <h1 className="text-2xl font-bold text-blue-950 dark:text-amber-50 text-center">Hello, Welcome</h1>
+                <p className="text-xl italic mb-5 text-blue-950 dark:text-amber-50 text-center">Thank for visit my personal website</p>
+                <h1 className="text-4xl font-bold text-blue-950 mb-2 dark:text-amber-50 text-center">Backend Engineer</h1>
             </FadeInLeft>
 
             <div className="w-full max-w-5xl mt-2 flex flex-col items-center justify-center md:flex-row gap-10">
@@ -82,7 +86,7 @@ const Home = () => {
             </div>
 
             <FadeInSection>
-                <a className='bg-blue-950 text-amber-50 p-2 rounded shadow' href={cv} target='_blank'>Preview CV</a>
+                <a className='light:bg-blue-950 dark:text-amber-50 p-2 rounded shadow' href={cv} target='_blank'>Preview CV</a>
             </FadeInSection>
 
             <div className='space-x-0 md:space-x-4 w-full flex flex-col md:flex-row justify-center items-center'>

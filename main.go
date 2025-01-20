@@ -13,14 +13,9 @@ func main() {
 	app := fiber.New(fiber.Config{AppName: "ridnvil.dev"})
 	app.Use(logger.New())
 
-	app.Static("/", "ridnvil/build", fiber.Static{
-		Browse: false,
-	})
-
-	dash := app.Group("/admin")
-	app.Static("/assets", "dashboard/dist/assets")
-	app.Static("/", "dashboard/vite.svg")
-	dash.Static("/", "dashboard/dist")
+	app.Static("/", "ridnvil/build")
+	app.Static("/login", "ridnvil/build")
+	app.Static("/profile", "ridnvil/build")
 
 	if errdbcheck := database.AutoCreateDatabase(); errdbcheck != nil {
 		log.Println(errdbcheck)
@@ -31,11 +26,19 @@ func main() {
 		panic(err)
 	}
 
-	if err := db.AutoMigrate(&models.IPInfo{}, &models.Experinces{}, &models.Profile{}, &models.Educations{}, &models.SocialNetwork{}); err != nil {
+	if err := db.AutoMigrate(
+		&models.IPInfo{},
+		&models.Profile{},
+		&models.Experinces{},
+		&models.SocialNetwork{},
+		&models.Educations{},
+	); err != nil {
 		panic(err)
 	}
 
 	api := app.Group("/api")
+
+	api.Post("/login", controllers.Login)
 
 	api.Get("/welcome", controllers.Welcome)
 	api.Post("/client", controllers.CreateClient)
