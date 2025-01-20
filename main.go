@@ -31,7 +31,7 @@ func main() {
 		panic(err)
 	}
 
-	if err := db.AutoMigrate(&models.IPInfo{}); err != nil {
+	if err := db.AutoMigrate(&models.IPInfo{}, &models.Experinces{}, &models.Profile{}, &models.Educations{}, &models.SocialNetwork{}); err != nil {
 		panic(err)
 	}
 
@@ -40,6 +40,8 @@ func main() {
 	api.Get("/welcome", controllers.Welcome)
 	api.Post("/client", controllers.CreateClient)
 	api.Get("/client", controllers.GetListClient)
+
+	api.Get("/stock", controllers.GetStock)
 
 	if err := app.Listen(":3001"); err != nil {
 		panic(err)
