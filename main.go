@@ -13,9 +13,9 @@ func main() {
 	app := fiber.New(fiber.Config{AppName: "ridnvil.dev"})
 	app.Use(logger.New())
 
-	app.Static("/", "ridnvil/build")
-	app.Static("/login", "ridnvil/build")
-	app.Static("/profile", "ridnvil/build")
+	app.Static("/", "ridnvil/build", fiber.Static{Browse: false})
+	app.Static("/login", "ridnvil/build", fiber.Static{Browse: false})
+	app.Static("/profile", "ridnvil/build", fiber.Static{Browse: false})
 
 	if errdbcheck := database.AutoCreateDatabase(); errdbcheck != nil {
 		log.Println(errdbcheck)
