@@ -27,8 +27,8 @@ func main() {
 	}
 
 	if err := db.AutoMigrate(
-		&models.IPInfo{},
 		&models.Profile{},
+		&models.IPInfo{},
 		&models.Experinces{},
 		&models.SocialNetwork{},
 		&models.Educations{},
