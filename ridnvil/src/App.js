@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { RouterProvider, createBrowserRouter } from "react-router-dom"
+import React from 'react';
+import {RouterProvider, createBrowserRouter} from "react-router-dom"
 import Home from "./pages/home";
 import Login from "./pages/login";
 import ProtectedRoute from "./components/ProtectedRoute";

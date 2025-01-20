@@ -1,15 +1,61 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ThemeSwitcher from "../components/ThemeSwitcher";
 import logo from '../assets/profile.png'
 import {useDispatch} from "react-redux";
+import {useNavigate} from "react-router-dom";
+import {loginSuccess} from "../features/authSlice";
+import Cookies from 'js-cookie';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const handleLogin = () => {
-        console.log(email, password)
+    useEffect(() => {
+        const token = Cookies.get('token')
+        if (token) {
+            const user = JSON.parse(localStorage.getItem("user"))
+            dispatch(loginSuccess({user, token}))
+            navigate("/profile")
+        }
+    }, [dispatch]);
+
+    const handleLogin = async () => {
+        const data = {
+            email: email,
+            password: password
+        }
+
+        await loginApi(data).then((res) => {
+            const token = Cookies.get("token")
+            const dataapi = {
+                user: res.user,
+                token: token
+            }
+            localStorage.setItem("user", JSON.stringify(res.user))
+            dispatch(loginSuccess(dataapi))
+            navigate("/profile")
+        }).catch(err => console.log(err))
+    }
+
+    const loginApi = (data) => {
+        return new Promise((resolve, reject) => {
+            fetch("/api/login", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            }).then(async (res) => {
+                if (!res.ok) {
+                    reject("error")
+                }
+                resolve(await res.json());
+            }).catch(err => {
+                reject(err)
+            })
+        })
     }
 
     return (

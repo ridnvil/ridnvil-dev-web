@@ -44,6 +44,8 @@ func main() {
 	api.Post("/client", controllers.CreateClient)
 	api.Get("/client", controllers.GetListClient)
 
+	api.Get("/profile", controllers.GetProfiles)
+
 	api.Get("/stock", controllers.GetStock)
 
 	if err := app.Listen(":3001"); err != nil {
