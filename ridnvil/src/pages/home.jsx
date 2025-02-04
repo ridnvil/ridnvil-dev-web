@@ -10,6 +10,8 @@ import cv from "../assets/CV.pdf";
 import SocialMediaIcons from "../components/SocialMediaIcons";
 import Portofolio from "../components/Portofolio";
 import ThemeSwitcher from "../components/ThemeSwitcher";
+import IndodexBannerSmall from "../components/IndodexBannerSmall";
+import IndodexBannerBig from "../components/IndodexBannerBig";
 
 const Home = () => {
     const [clientInfo, setClientInfo] = useState(null)
@@ -69,6 +71,9 @@ const Home = () => {
                 <div className="md:w-1/2">
                     <FadeInLeft>
                         <Biodata/>
+                        <div className='mt-4'>
+                            <IndodexBannerSmall />
+                        </div>
                     </FadeInLeft>
                 </div>
 
@@ -81,6 +86,9 @@ const Home = () => {
                 <div className="md:w-1/2">
                     <FadeInRight>
                         <Pendidikan/>
+                        <div className='mt-4'>
+                            <IndodexBannerSmall />
+                        </div>
                     </FadeInRight>
                 </div>
             </div>
@@ -89,6 +97,9 @@ const Home = () => {
                 <a className='light:bg-blue-950 dark:text-amber-50 p-2 rounded shadow' href={cv} target='_blank'>Preview CV</a>
             </FadeInSection>
 
+            <FadeInLeft>
+                <h1 className='dark:text-white text-blue-950'>Portofolio</h1>
+            </FadeInLeft>
             <div className='space-x-0 md:space-x-4 w-full flex flex-col md:flex-row justify-center items-center'>
                 <div className='flex items-center justify-center'>
                     <FadeInSection>
