@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import AnimatedBackground from "../components/AnimatedBackground";
 import FadeInLeft from "../framemotion/FadeInLeft";
 import Biodata from "../contents/Biodata";
 import FadeInSection from "../framemotion/FadeInSection";
@@ -11,7 +10,6 @@ import SocialMediaIcons from "../components/SocialMediaIcons";
 import Portofolio from "../components/Portofolio";
 import ThemeSwitcher from "../components/ThemeSwitcher";
 import IndodexBannerSmall from "../components/IndodexBannerSmall";
-import IndodexBannerBig from "../components/IndodexBannerBig";
 
 const Home = () => {
     const [clientInfo, setClientInfo] = useState(null)
