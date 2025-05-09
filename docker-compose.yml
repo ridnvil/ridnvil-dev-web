@@ -22,8 +22,8 @@ services:
       HOST_ONLY: root:v5jd7Sk61lL99Yumna@tcp(172.19.0.2:3306)/?charset=utf8mb4&parseTime=True&loc=Local
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.web.rule=Host(`ridnvil.dev`)"
-      - "traefik.http.services.web.loadbalancer.server.port=3001"
+      - "traefik.http.routers.webpersonalrid.rule=Host(`ridnvil.dev`)"
+      - "traefik.http.services.webpersonalrid.loadbalancer.server.port=3001"
     restart: always
     networks:
       public: {}
