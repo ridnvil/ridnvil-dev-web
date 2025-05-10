@@ -1,5 +1,5 @@
-# Use a minimal base image for Go applications
-FROM golang:1.23.4-alpine AS build
+# Stage 1: Build Go application
+FROM golang:1.23.4-alpine AS build-go
 
 RUN apk add --no-cache gcc musl-dev
 
@@ -12,15 +12,38 @@ COPY . .
 
 RUN go build -o main .
 
+# Stage 2: Build ReactJS app
+FROM node:20-alpine AS build-react
+
+WORKDIR /frontend
+
+# Salin hanya file yang dibutuhkan untuk install dan build
+COPY frontend/package*.json ./
+
+RUN npm install
+
+# Salin seluruh source code React
+COPY frontend ./
+
+RUN npm run build
+
+# Stage 3: Final image
 FROM alpine:latest
 
 WORKDIR /app
 
-COPY --from=build /app/main .
+# Copy Go binary
+COPY --from=build-go /app/main .
+
+# Copy supporting files
 COPY ridnvil /app/ridnvil
 COPY database /app/database
 COPY nvil.sqlite3 /app/nvil.sqlite3
 
+# Copy React build output to desired location (e.g., serve via Go or static server)
+COPY --from=build-react /frontend/build /app/frontend/build
+
+# Set timezone and environment
 RUN apk --no-cache add tzdata
 ENV TZ=Asia/Jakarta
 ENV CGO_ENABLED=1
