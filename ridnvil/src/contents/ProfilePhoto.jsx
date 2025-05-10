@@ -1,6 +1,5 @@
-// src/components/ProfilePhoto.js
 import React from 'react';
-import profilePic from '../assets/profile.png'; // Pastikan Anda memiliki foto di src/assets/
+import profilePic from '../assets/profile.png';
 
 const ProfilePhoto = () => {
     return (
