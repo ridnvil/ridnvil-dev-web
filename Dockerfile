@@ -23,7 +23,7 @@ COPY ridnvil/package*.json ./
 RUN npm install
 
 # Salin seluruh source code React
-COPY frontend ./
+COPY ridnvil ./
 
 RUN npm run build
 
