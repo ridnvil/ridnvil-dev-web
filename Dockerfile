@@ -15,10 +15,10 @@ RUN go build -o main .
 # Stage 2: Build ReactJS app
 FROM node:20-alpine AS build-react
 
-WORKDIR /frontend
+WORKDIR /ridnvil
 
 # Salin hanya file yang dibutuhkan untuk install dan build
-COPY frontend/package*.json ./
+COPY ridnvil/package*.json ./
 
 RUN npm install
 
@@ -41,7 +41,7 @@ COPY database /app/database
 COPY nvil.sqlite3 /app/nvil.sqlite3
 
 # Copy React build output to desired location (e.g., serve via Go or static server)
-COPY --from=build-react /frontend/build /app/frontend/build
+COPY --from=build-react /ridnvil/build /app/ridnvil/build
 
 # Set timezone and environment
 RUN apk --no-cache add tzdata
