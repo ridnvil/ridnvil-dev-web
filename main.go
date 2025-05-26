@@ -38,6 +38,7 @@ func main() {
 
 	api := app.Group("/api")
 
+	// Testing Push
 	api.Post("/login", controllers.Login)
 
 	api.Get("/welcome", controllers.Welcome)
