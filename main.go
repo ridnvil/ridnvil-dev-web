@@ -14,8 +14,11 @@ func main() {
 	app.Use(logger.New())
 
 	app.Static("/", "ridnvil/build", fiber.Static{Browse: false})
-	//app.Static("/login", "ridnvil/build", fiber.Static{Browse: false})
-	//app.Static("/profile", "ridnvil/build", fiber.Static{Browse: false})
+	app.Static("/login", "ridnvil/build", fiber.Static{Browse: false})
+	app.Static("/profile", "ridnvil/build", fiber.Static{Browse: false})
+	app.Static("/experiences", "ridnvil/build", fiber.Static{Browse: false})
+	app.Static("/skills", "ridnvil/build", fiber.Static{Browse: false})
+	app.Static("/projects", "ridnvil/build", fiber.Static{Browse: false})
 
 	if errdbcheck := database.AutoCreateDatabase(); errdbcheck != nil {
 		log.Println(errdbcheck)
