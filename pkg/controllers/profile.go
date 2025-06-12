@@ -2,10 +2,19 @@ package controllers
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 	"ridnvil-dev/pkg/auth"
 )
 
-func GetProfiles(ctx *fiber.Ctx) error {
+type ProfileController struct {
+	DB *gorm.DB
+}
+
+func NewProfileController(db *gorm.DB) *ProfileController {
+	return &ProfileController{DB: db}
+}
+
+func (h *ProfileController) GetProfiles(ctx *fiber.Ctx) error {
 	user, err := auth.ProtectedHandle(ctx)
 	if err != nil {
 		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": err.Error()})

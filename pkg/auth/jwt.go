@@ -18,7 +18,7 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-func GenerateJWT(user models.User) (string, error) {
+func GenerateJWT(user models.Profile) (string, error) {
 	// Define JWT claims (custom data can go here)
 	claims := Claims{
 		ID:    user.ID,

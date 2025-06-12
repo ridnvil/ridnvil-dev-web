@@ -1,16 +1,12 @@
 package repository
 
 import (
+	"gorm.io/gorm"
 	"ridnvil-dev/pkg/database"
 	"ridnvil-dev/pkg/models"
 )
 
-func CreateCleint(data models.IPInfo) error {
-	db, err := database.OpenConnectionSQLite()
-	if err != nil {
-		return err
-	}
-
+func CreateCleint(data models.IPInfo, db *gorm.DB) error {
 	var ipstring string
 
 	if errcheck := db.Model(models.IPInfo{}).Select("ip").Where("ip = ?", data.IP).Scan(&ipstring).Error; errcheck != nil {
@@ -30,7 +26,7 @@ func CreateCleint(data models.IPInfo) error {
 	return nil
 }
 
-func GetListClient() ([]models.IPInfo, error) {
+func GetListClient(db *gorm.DB) ([]models.IPInfo, error) {
 	db, err := database.OpenConnectionSQLite()
 	if err != nil {
 		return []models.IPInfo{}, err

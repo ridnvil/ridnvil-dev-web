@@ -3,12 +3,21 @@ package controllers
 import (
 	"errors"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 	"ridnvil-dev/pkg/auth"
 	"ridnvil-dev/pkg/models"
 	"time"
 )
 
-func Login(ctx *fiber.Ctx) error {
+type AuthController struct {
+	DB *gorm.DB
+}
+
+func NewAuthController(db *gorm.DB) *AuthController {
+	return &AuthController{DB: db}
+}
+
+func (h *AuthController) Login(ctx *fiber.Ctx) error {
 	var logindata struct {
 		Email    string `json:"email"`
 		Password string `json:"password"`
@@ -18,17 +27,21 @@ func Login(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": errparse.Error()})
 	}
 
-	if logindata.Email == "rid.nvil17@gmail.com" && logindata.Password == "v5jd7Sk61lL99Yumna" {
+	// v5jd7Sk61lL99Yumna
+	if logindata.Email == "rid.nvil17@gmail.com" && logindata.Password == "M1r34cl3" {
 
-		var user models.User
+		var user models.Profile
 
-		user.ID = 1
-		user.Name = "Ridwan"
-		user.Email = "rid.nvil17@gmail.com"
+		if errgetprof := h.DB.First(&user, "email = ?", logindata.Email).Error; errgetprof != nil {
+			if errors.Is(errgetprof, gorm.ErrRecordNotFound) {
+				return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "user not found"})
+			}
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": errgetprof.Error()})
+		}
 
 		var responseData struct {
-			User  models.User `json:"user"`
-			Token string      `json:"token"`
+			User  models.Profile `json:"user"`
+			Token string         `json:"token"`
 		}
 
 		token, err := auth.GenerateJWT(user)

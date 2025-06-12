@@ -3,6 +3,7 @@ import {useDispatch} from "react-redux";
 import Cookies from "js-cookie";
 import {logout} from "../features/authSlice";
 import ThemeSwitcher from "../components/ThemeSwitcher";
+import MyNavbar from "../components/MyNavbar";
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -39,10 +40,14 @@ const Profile = () => {
     }
 
     return (
-        <div className="relative min-h-screen bg-transparent bg-white dark:bg-blue-950 p-8 flex flex-col items-center">
+        <div>
             <ThemeSwitcher />
-            <h1 className='text-blue-950 dark:text-amber-50'>Profile</h1>
-            <button className='text-blue-950 dark:text-amber-50 border' onClick={handleLogout}>Logout</button>
+            <div className="dark:bg-blue-950 dark:text-white text-gray-500">
+                <MyNavbar />
+                <div className='h-screen dark:bg-blue-950 p-10 flex items-center justify-center'>
+                    <h1>Profile</h1>
+                </div>
+            </div>
         </div>
     );
 };

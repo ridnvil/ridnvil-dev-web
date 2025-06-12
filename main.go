@@ -14,8 +14,8 @@ func main() {
 	app.Use(logger.New())
 
 	app.Static("/", "ridnvil/build", fiber.Static{Browse: false})
-	app.Static("/login", "ridnvil/build", fiber.Static{Browse: false})
-	app.Static("/profile", "ridnvil/build", fiber.Static{Browse: false})
+	//app.Static("/login", "ridnvil/build", fiber.Static{Browse: false})
+	//app.Static("/profile", "ridnvil/build", fiber.Static{Browse: false})
 
 	if errdbcheck := database.AutoCreateDatabase(); errdbcheck != nil {
 		log.Println(errdbcheck)
@@ -29,25 +29,32 @@ func main() {
 	if err := db.AutoMigrate(
 		&models.Profile{},
 		&models.IPInfo{},
-		&models.Experinces{},
+		&models.Experiences{},
 		&models.SocialNetwork{},
 		&models.Educations{},
+		&models.Skill{},
 	); err != nil {
 		panic(err)
 	}
 
 	api := app.Group("/api")
 
+	authController := controllers.NewAuthController(db)
+	clientController := controllers.NewClientController(db)
+	profileController := controllers.NewProfileController(db)
+	homeController := controllers.NewHomeController(db)
+	experienceController := controllers.NewExperienceController(db)
+
 	// Testing Push
-	api.Post("/login", controllers.Login)
+	api.Post("/login", authController.Login)
 
-	api.Get("/welcome", controllers.Welcome)
-	api.Post("/client", controllers.CreateClient)
-	api.Get("/client", controllers.GetListClient)
+	api.Get("/welcome", homeController.Home)
+	api.Post("/client", clientController.CreateClient)
+	api.Get("/client", clientController.GetListClient)
 
-	api.Get("/profile", controllers.GetProfiles)
+	api.Get("/profile", profileController.GetProfiles)
 
-	api.Get("/stock", controllers.GetStock)
+	api.Get("/experiences", experienceController.GetExperience)
 
 	if err := app.Listen(":3001"); err != nil {
 		panic(err)

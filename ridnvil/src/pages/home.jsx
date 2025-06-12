@@ -10,12 +10,26 @@ import SocialMediaIcons from "../components/SocialMediaIcons";
 import Portofolio from "../components/Portofolio";
 import ThemeSwitcher from "../components/ThemeSwitcher";
 import IndodexBannerSmall from "../components/IndodexBannerSmall";
+import {getProfileGlobal} from "../api/profileglobal";
 
 const Home = () => {
     const [clientInfo, setClientInfo] = useState(null)
+    const [profile, setProfile] = useState(null)
+
+    const fetchProfile = async () => {
+        return await getProfileGlobal()
+    }
+
     useEffect(() => {
         getDetailsClient().then(async (res) => {
             await sendToServer(res).catch(err => console.log(err))
+        }).catch(err => console.log(err))
+    }, []);
+
+    useEffect(() => {
+        fetchProfile().then((res) => {
+            setProfile(res);
+            console.log(res);
         }).catch(err => console.log(err))
     }, []);
 
@@ -57,59 +71,68 @@ const Home = () => {
             <div>
                 <ThemeSwitcher />
             </div>
-            {/*<AnimatedBackground />*/}
-            <FadeInLeft>
-                <h1 className="text-2xl font-bold text-blue-950 dark:text-amber-50 text-center">Hello, Welcome</h1>
-                <p className="text-xl italic mb-5 text-blue-950 dark:text-amber-50 text-center">Thank for visit my personal website</p>
-                <h1 className="text-4xl font-bold text-blue-950 mb-2 dark:text-amber-50 text-center">Backend Engineer</h1>
-            </FadeInLeft>
 
-            <div className="w-full max-w-5xl mt-2 flex flex-col items-center justify-center md:flex-row gap-10">
-
-                <div className="md:w-1/2">
+            {profile === null ? (
+                <div className="flex items-center justify-center h-screen">
+                    <p className="text-blue-950 dark:text-amber-50">Loading...</p>
+                </div>
+            ) : (
+                <div className='flex flex-col items-center justify-center'>
                     <FadeInLeft>
-                        <Biodata/>
-                        <div className='mt-4'>
-                            <IndodexBannerSmall />
-                        </div>
+                        <h1 className="text-2xl font-bold text-blue-950 dark:text-amber-50 text-center">Hello, Welcome</h1>
+                        <p className="text-xl italic mb-5 text-blue-950 dark:text-amber-50 text-center">Thank for visit my personal website</p>
+                        <h1 className="text-4xl font-bold text-blue-950 mb-2 dark:text-amber-50 text-center">{profile.position}</h1>
                     </FadeInLeft>
-                </div>
 
-                <div className="md:w-1/2">
-                    <FadeInSection>
-                        <ProfilePhoto/>
-                    </FadeInSection>
-                </div>
+                    <div className="w-full max-w-5xl mt-2 flex flex-col items-center justify-center md:flex-row gap-10">
 
-                <div className="md:w-1/2">
-                    <FadeInRight>
-                        <Pendidikan/>
-                        <div className='mt-4'>
-                            <IndodexBannerSmall />
+                        <div className="md:w-1/2">
+                            <FadeInLeft>
+                                <Biodata name={profile.name} email={profile.email} phone={profile.phone} address={profile.address} />
+                                <div className='mt-4'>
+                                    <IndodexBannerSmall />
+                                </div>
+                            </FadeInLeft>
                         </div>
-                    </FadeInRight>
-                </div>
-            </div>
 
-            <FadeInSection>
-                <a className='light:bg-blue-950 dark:text-amber-50 p-2 rounded shadow' href={cv} target='_blank'>Preview CV</a>
-            </FadeInSection>
+                        <div className="md:w-1/2">
+                            <FadeInSection>
+                                <ProfilePhoto/>
+                            </FadeInSection>
+                        </div>
 
-            <FadeInLeft>
-                <h1 className='dark:text-white text-blue-950'>Portofolio</h1>
-            </FadeInLeft>
-            <div className='space-x-0 md:space-x-4 w-full flex flex-col md:flex-row justify-center items-center'>
-                <div className='flex items-center justify-center'>
+                        <div className="md:w-1/2">
+                            <FadeInRight>
+                                <Pendidikan institude={profile.education_ref[0].Institution} major={profile.education_ref[0].Major} duration={profile.education_ref[0].EducationLength}/>
+                                <div className='mt-4'>
+                                    <IndodexBannerSmall />
+                                </div>
+                            </FadeInRight>
+                        </div>
+                    </div>
+
                     <FadeInSection>
-                        <SocialMediaIcons />
+                        <a className='light:bg-blue-950 dark:text-amber-50 p-2 rounded shadow' href={cv} target='_blank'>Preview CV</a>
                     </FadeInSection>
+
+                    <FadeInLeft>
+                        <h1 className='dark:text-white text-blue-950'>Portofolio</h1>
+                    </FadeInLeft>
+                    <div className='space-x-0 md:space-x-4 w-full flex flex-col md:flex-row justify-center items-center'>
+                        <div className='flex items-center justify-center'>
+                            <FadeInSection>
+                                <SocialMediaIcons />
+                            </FadeInSection>
+                        </div>
+                        <div>
+                            <FadeInSection>
+                                <Portofolio />
+                            </FadeInSection>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <FadeInSection>
-                        <Portofolio />
-                    </FadeInSection>
-                </div>
-            </div>
+            )}
+
         </div>
     );
 };
