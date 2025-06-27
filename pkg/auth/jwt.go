@@ -43,12 +43,12 @@ func GenerateJWT(user models.Profile) (string, error) {
 }
 
 func ProtectedHandle(c *fiber.Ctx) (*Claims, error) {
-	authHeader := c.Get("Authorization")
+	authHeader := c.Cookies("token")
 	if authHeader == "" {
 		return nil, errors.New("missing or invalid token")
 	}
 
-	tokenString := authHeader[7:]
+	tokenString := authHeader
 
 	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (interface{}, error) {
 		// Validate the signing method

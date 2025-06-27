@@ -1,16 +1,15 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useSelector} from 'react-redux';
+import {useAuthStore} from "../store/useAuthStore";
 
 function ProtectedRoute({ children }) {
-    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+    const { isLoggedIn, user } = useAuthStore();
 
-    // If the user is not logged in, redirect to the login page
-    if (!isLoggedIn) {
-        return <Navigate to="/login" replace />;
+    if (user) {
+        if (!isLoggedIn) {
+            return <Navigate to="/login" replace />;
+        }
     }
-
-    // Otherwise, render the protected page
     return children;
 }
 

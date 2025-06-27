@@ -50,6 +50,7 @@ func main() {
 
 	// Testing Push
 	api.Post("/login", authController.Login)
+	api.Post("/logout", authController.Logout)
 
 	api.Get("/welcome", homeController.Home)
 	api.Post("/client", clientController.CreateClient)

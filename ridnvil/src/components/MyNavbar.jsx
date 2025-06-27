@@ -1,16 +1,19 @@
-import React from 'react';
-import {useDispatch} from "react-redux";
-import Cookies from "js-cookie";
-import {logout} from "../features/authSlice";
-import {Link} from "react-router-dom";
+import React, {useState} from 'react';
+import {Link, useNavigate} from "react-router-dom";
+import {useAuthStore} from "../store/useAuthStore";
+import {logoutApi} from "../api/auth";
 
 const MyNavbar = () => {
-    const dispatch = useDispatch();
-    const handleLogout = () => {
-        Cookies.remove('token');
-        localStorage.removeItem("user")
-        dispatch(logout());
-    };
+    const navigate = useNavigate();
+    const { logout } = useAuthStore();
+    const handleLogout = async () => {
+        await logoutApi().then((res) => {
+            logout()
+            navigate('/login');
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
 
     return (
         <nav className="">

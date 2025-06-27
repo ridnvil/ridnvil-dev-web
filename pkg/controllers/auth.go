@@ -40,8 +40,7 @@ func (h *AuthController) Login(ctx *fiber.Ctx) error {
 		}
 
 		var responseData struct {
-			User  models.Profile `json:"user"`
-			Token string         `json:"token"`
+			User models.Profile `json:"user"`
 		}
 
 		token, err := auth.GenerateJWT(user)
@@ -56,9 +55,26 @@ func (h *AuthController) Login(ctx *fiber.Ctx) error {
 		})
 
 		responseData.User = user
-		responseData.Token = token
 		return ctx.JSON(responseData)
 	}
 
 	return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": errors.New("login failed")})
+}
+
+func (h *AuthController) Logout(ctx *fiber.Ctx) error {
+	user, err := auth.ProtectedHandle(ctx)
+	if err != nil {
+		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": err.Error()})
+	}
+
+	if user.Email == "" {
+		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "user not found"})
+	}
+
+	ctx.Cookie(&fiber.Cookie{
+		Name:    "token",
+		Value:   "",
+		Expires: time.Now().Add(-time.Hour),
+	})
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"success": true})
 }

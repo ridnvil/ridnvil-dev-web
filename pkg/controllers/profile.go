@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 	"ridnvil-dev/pkg/auth"
+	"ridnvil-dev/pkg/models"
 )
 
 type ProfileController struct {
@@ -20,5 +21,12 @@ func (h *ProfileController) GetProfiles(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	return ctx.JSON(user)
+	var profiles models.Profile
+	if errget := h.DB.First(&profiles, "email = ?", user.Email).Error; errget != nil {
+		return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"success": false,
+			"error":   errget,
+		})
+	}
+	return ctx.JSON(profiles)
 }
