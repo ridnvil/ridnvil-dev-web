@@ -64,7 +64,7 @@ const Home = () => {
     if (error) errorHandler(error);
 
     return (
-        <div className="relative min-h-screen bg-transparent bg-white dark:bg-blue-950 p-8 flex flex-col items-center">
+        <div className="relative bg-transparent bg-white dark:bg-gray-900 p-8 flex flex-col items-center">
             <div>
                 <ThemeSwitcher />
             </div>
@@ -81,7 +81,7 @@ const Home = () => {
                         <FadeInLeft>
                             <Biodata name={data.name} email={data.email} phone={data.phone} address={data.address} />
                             <div className='mt-4'>
-                                <IndodexBannerSmall />
+                                {/*<IndodexBannerSmall />*/}
                             </div>
                         </FadeInLeft>
                     </div>
@@ -96,7 +96,7 @@ const Home = () => {
                         <FadeInRight>
                             <Pendidikan institude={data.education_ref[0].Institution} major={data.education_ref[0].Major} duration={data.education_ref[0].EducationLength}/>
                             <div className='mt-4'>
-                                <IndodexBannerSmall />
+                                {/*<IndodexBannerSmall />*/}
                             </div>
                         </FadeInRight>
                     </div>
@@ -106,20 +106,16 @@ const Home = () => {
                     <a className='light:bg-blue-950 dark:text-amber-50 p-2 rounded shadow' href={cv} target='_blank'>Preview CV</a>
                 </FadeInSection>
 
-                <FadeInLeft>
-                    <h1 className='dark:text-white text-blue-950'>Portofolio</h1>
-                </FadeInLeft>
-                <div className='space-x-0 md:space-x-4 w-full flex flex-col md:flex-row justify-center items-center'>
-                    <div className='flex items-center justify-center'>
-                        <FadeInSection>
-                            <SocialMediaIcons />
-                        </FadeInSection>
-                    </div>
-                    <div>
-                        <FadeInSection>
-                            <Portofolio />
-                        </FadeInSection>
-                    </div>
+                <div className='flex flex-col items-center justify-center'>
+                    <FadeInSection>
+                        <Portofolio />
+                    </FadeInSection>
+                </div>
+
+                <div className='flex flex-col items-center justify-center'>
+                    <FadeInSection>
+                        <SocialMediaIcons />
+                    </FadeInSection>
                 </div>
             </div>
         </div>

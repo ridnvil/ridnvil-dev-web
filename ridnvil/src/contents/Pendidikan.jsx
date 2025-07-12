@@ -3,7 +3,7 @@ import React from 'react';
 
 const Pendidikan = ({institude, major, duration}) => {
     return (
-        <div className="bg-white bg-opacity-85 p-6 rounded shadow-md text-blue-950 dark:bg-blue-950 dark:text-white">
+        <div className="bg-white bg-opacity-85 p-6 rounded text-blue-950 dark:bg-blue-950 dark:text-white">
             <h2 className="text-2xl font-semibold mb-4">Education</h2>
             <ul className="space-y-4">
                 <li>

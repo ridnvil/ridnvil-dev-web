@@ -60,7 +60,7 @@ func main() {
 
 	api.Get("/experiences", experienceController.GetExperience)
 
-	if err := app.Listen(":3001"); err != nil {
+	if err := app.Listen(":3002"); err != nil {
 		panic(err)
 	}
 }
