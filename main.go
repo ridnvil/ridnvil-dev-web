@@ -6,6 +6,7 @@ import (
 	"log"
 	"ridnvil-dev/pkg/controllers"
 	"ridnvil-dev/pkg/database"
+	"ridnvil-dev/pkg/middleware"
 	"ridnvil-dev/pkg/models"
 )
 
@@ -32,6 +33,7 @@ func main() {
 	if err := db.AutoMigrate(
 		&models.Profile{},
 		&models.IPInfo{},
+		&models.Project{},
 		&models.Experiences{},
 		&models.SocialNetwork{},
 		&models.Educations{},
@@ -47,18 +49,31 @@ func main() {
 	profileController := controllers.NewProfileController(db)
 	homeController := controllers.NewHomeController(db)
 	experienceController := controllers.NewExperienceController(db)
+	projectController := controllers.NewProjectController(db)
+	taskController := controllers.NewTasksController(db)
 
 	// Testing Push
 	api.Post("/login", authController.Login)
-	api.Post("/logout", authController.Logout)
+	api.Post("/logout", middleware.JWTMiddleware(), authController.Logout)
 
 	api.Get("/welcome", homeController.Home)
 	api.Post("/client", clientController.CreateClient)
 	api.Get("/client", clientController.GetListClient)
 
-	api.Get("/profile", profileController.GetProfiles)
+	api.Get("/profile", middleware.JWTMiddleware(), profileController.GetProfiles)
 
-	api.Get("/experiences", experienceController.GetExperience)
+	api.Get("/experiences", middleware.JWTMiddleware(), experienceController.GetExperience)
+	api.Post("/experiences", middleware.JWTMiddleware(), experienceController.CreateExperience)
+
+	api.Get("/projects/", middleware.JWTMiddleware(), projectController.GetProjects)
+	api.Post("/projects", middleware.JWTMiddleware(), projectController.CreateProject)
+	api.Put("/projects/:id", middleware.JWTMiddleware(), projectController.UpdateProject)
+	api.Delete("/projects/:id", middleware.JWTMiddleware(), projectController.DeleteProject)
+
+	api.Get("/tasks", middleware.JWTMiddleware(), taskController.GetTasks)
+	api.Post("/task", middleware.JWTMiddleware(), taskController.CreateTasks)
+	api.Put("/task/:id", middleware.JWTMiddleware(), taskController.UpdateTasks)
+	api.Delete("/tasks/:id", middleware.JWTMiddleware(), taskController.DeleteTasks)
 
 	if err := app.Listen(":3002"); err != nil {
 		panic(err)

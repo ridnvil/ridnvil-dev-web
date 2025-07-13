@@ -62,15 +62,6 @@ func (h *AuthController) Login(ctx *fiber.Ctx) error {
 }
 
 func (h *AuthController) Logout(ctx *fiber.Ctx) error {
-	user, err := auth.ProtectedHandle(ctx)
-	if err != nil {
-		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": err.Error()})
-	}
-
-	if user.Email == "" {
-		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "user not found"})
-	}
-
 	ctx.Cookie(&fiber.Cookie{
 		Name:    "token",
 		Value:   "",

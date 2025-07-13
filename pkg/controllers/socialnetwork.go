@@ -3,7 +3,6 @@ package controllers
 import (
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
-	"ridnvil-dev/pkg/auth"
 	"ridnvil-dev/pkg/models"
 )
 
@@ -16,14 +15,10 @@ func NewSocialNetworkController(db *gorm.DB) *SocialNetworkController {
 }
 
 func (c *SocialNetworkController) GetSocialNetworks(ctx *fiber.Ctx) error {
-	claim, errsec := auth.ProtectedHandle(ctx)
-	if errsec != nil {
-		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": errsec.Error()})
-	}
-
+	id := ctx.Locals("id").(int)
 	var socialNetworks []models.SocialNetwork
 
-	if err := c.DB.Where("profile_id = ?", claim.ID).Find(&socialNetworks).Error; err != nil {
+	if err := c.DB.Where("profile_id = ?", id).Find(&socialNetworks).Error; err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
@@ -31,21 +26,13 @@ func (c *SocialNetworkController) GetSocialNetworks(ctx *fiber.Ctx) error {
 }
 
 func (c *SocialNetworkController) CreateSocialNetwork(ctx *fiber.Ctx) error {
-	claim, errsec := auth.ProtectedHandle(ctx)
-	if errsec != nil {
-		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": errsec.Error()})
-	}
-
-	if claim.Email == "" {
-		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Unauthorized"})
-	}
-
+	id := ctx.Locals("id").(int)
 	var socialNetwork models.SocialNetwork
 	if err := ctx.BodyParser(&socialNetwork); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	socialNetwork.ProfileID = claim.ID
+	socialNetwork.ProfileID = id
 	if err := c.DB.Create(&socialNetwork).Error; err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}

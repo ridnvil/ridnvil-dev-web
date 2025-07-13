@@ -3,7 +3,6 @@ package controllers
 import (
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
-	"ridnvil-dev/pkg/auth"
 	"ridnvil-dev/pkg/models"
 )
 
@@ -16,17 +15,10 @@ func NewSkillsController(db *gorm.DB) *SkillsController {
 }
 
 func (c *SkillsController) GetSkills(ctx *fiber.Ctx) error {
-	claim, errsec := auth.ProtectedHandle(ctx)
-	if errsec != nil {
-		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": errsec.Error()})
-	}
-
-	if claim.Email == "" {
-		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Unauthorized"})
-	}
+	id := ctx.Locals("id").(int)
 
 	var skills []models.Skill
-	if err := c.DB.Where("profile_id = ?", claim.ID).Find(&skills).Error; err != nil {
+	if err := c.DB.Where("profile_id = ?", id).Find(&skills).Error; err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
@@ -34,21 +26,14 @@ func (c *SkillsController) GetSkills(ctx *fiber.Ctx) error {
 }
 
 func (c *SkillsController) CreateSkill(ctx *fiber.Ctx) error {
-	claim, errsec := auth.ProtectedHandle(ctx)
-	if errsec != nil {
-		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": errsec.Error()})
-	}
-
-	if claim.Email == "" {
-		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "Unauthorized"})
-	}
+	id := ctx.Locals("id").(int)
 
 	var skill models.Skill
 	if err := ctx.BodyParser(&skill); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	skill.ProfileID = claim.ID
+	skill.ProfileID = id
 
 	if err := c.DB.Create(&skill).Error; err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
